@@ -16,6 +16,10 @@ concurrency:
 
 env:
   TZ: Europe/Copenhagen
+  leaderboard_file: leaderboard_white.csv
+  sheet_name: "Pool White - Round 1"
+
+
 
 jobs:
     calculate_leaderboard:
@@ -27,11 +31,11 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: leaderboard
-                path: leaderboard.csv
+                path: ${{ github.workspace }}/${{ vars.leaderboard_file }}
                 if-no-files-found: error
 
             - name: Do work
               run: |
                 python3 -m pip install pandas openpyxl requests
                 python3 download_leaderboard_exports.py
-                python3 process_leaderboard.py --input exports --sheet "Pool Yellow - Round 1" --output leaderboard_white.csv
+                python3 process_leaderboard.py --sheet "${{ vars.sheet_name }}" --output ${{ vars.leaderboard_file }}
