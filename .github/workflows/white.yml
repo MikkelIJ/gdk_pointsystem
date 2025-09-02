@@ -9,16 +9,9 @@ on:
 
 permissions:
     contents: read
-
-concurrency:
-    group: monday-window
-    cancel-in-progress: true
-
 env:
   TZ: Europe/Copenhagen
   layout: "White"
-
-
 
 jobs:
   build:
