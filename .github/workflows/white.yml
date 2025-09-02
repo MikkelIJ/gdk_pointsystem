@@ -30,8 +30,8 @@ jobs:
             - name: Do work
               run: |
                 python3 -m pip install pandas openpyxl requests
-                echo $vars.URLS_SUMMERLEAGUE
-                python3 download_leaderboard_exports.py --urls $vars.URLS_SUMMERLEAGUE
+                echo ${{ vars.URLS_SUMMERLEAGUE }}
+                python3 download_leaderboard_exports.py --urls ${{ vars.URLS_SUMMERLEAGUE }}
                 python3 process_leaderboard.py --sheet "Pool ${{ env.layout }} - Round 1" --output "Leaderboard_${{ env.layout }}.csv"
 
             - name: Upload leaderboard artifact
