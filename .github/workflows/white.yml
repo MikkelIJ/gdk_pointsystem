@@ -1,4 +1,4 @@
-name: Monday window
+name: White
 
 on:
     schedule:
@@ -18,12 +18,20 @@ env:
   TZ: Europe/Copenhagen
 
 jobs:
-    run:
+    calculate_leaderboard:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v4
+            - name: Upload leaderboard artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: leaderboard
+                path: leaderboard.csv
+                if-no-files-found: error
+
             - name: Do work
               run: |
                 python3 -m pip install pandas openpyxl requests
-                python3 main.py
+                python3 download_leaderboard_exports.py
+                python3 process_leaderboard.py --input exports --sheet "Pool Yellow - Round 1" --output leaderboard_white.csv

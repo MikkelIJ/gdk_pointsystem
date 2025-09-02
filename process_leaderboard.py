@@ -2,6 +2,7 @@ import pandas as pd
 import glob
 import re
 import os
+import argparse
 from calculate_points import calculate_points
 
 
@@ -123,3 +124,13 @@ def process_leaderboard(exports_folder="exports", output_csv="leaderboard.csv", 
         writer.writerow(header)
         writer.writerows(leaderboard_rows)
     print(f"Leaderboard saved to {output_csv}")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Process leaderboard data")
+    parser.add_argument("--input", default="exports", help="Input directory")
+    parser.add_argument("--sheet", type=str, help="Input sheet name")
+    parser.add_argument("--output", default="leaderboard.csv", help="Output CSV file")
+    args = parser.parse_args()
+
+    process_leaderboard(args.input, args.sheet, args.output)
