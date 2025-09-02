@@ -1,0 +1,25 @@
+events:
+    event_1:
+        url: "https://udisc.com/events/kampen-on-den-gyldne-midrange-1-8-eg4lmf/leaderboard"
+        date: "06/07/2025"
+    event_2:
+        url: "https://udisc.com/events/kampen-on-den-gyldne-midrange-2-8-HQ2TOo/leaderboard"
+        date: "13/07/2025"
+    event_3:
+        url: "https://udisc.com/events/kampen-on-den-gyldne-midrange-3-8-RlWFKF/leaderboard"
+        date: "20/07/2025"
+    event_4:
+        url: "https://udisc.com/events/kampen-on-den-gyldne-midrange-4-8-JXwQbn/leaderboard"
+        date: "27/07/2025"
+    event_5:
+        url: "https://udisc.com/events/kampen-on-den-gyldne-midrange-5-8-YCJzg4/leaderboard"
+        date: "03/08/2025"
+    event_6:
+        url: "https://udisc.com/events/kampen-on-den-gyldne-midrange-6-8-kpRQ7X/leaderboard"
+        date: "10/08/2025"
+    event_7:
+        url: "https://udisc.com/events/kampen-on-den-gyldne-midrange-7-8-0hdute/leaderboard"
+        date: "17/08/2025"
+    event_8:
+        url: "https://udisc.com/events/kampen-on-den-gyldne-midrange-8-8-AlorJX/leaderboard"
+        date: "24/08/2025"

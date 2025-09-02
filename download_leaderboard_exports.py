@@ -1,28 +1,15 @@
 import requests
 import os
 import argparse
+from seasons.load_season import load_events
 
-
-def download_leaderboard_exports(urls="", output_dir="exports"):
+def download_leaderboard_exports(events, output_dir="exports"):
     os.makedirs(output_dir, exist_ok=True)
-    for url in urls:
+    for event in events:
+        url = event["url"]
+        date = event["date"]
         export_url = url.rstrip('/') + '/export'
-        # Extract event identifier
-        parts = url.split('/')
-        event_id = parts[4] if len(parts) > 4 else "unknown-event"
-        # Map event identifier to date
-        event_dates = {
-            "kampen-on-den-gyldne-midrange-1-8-eg4lmf": "2025-07-06",
-            "kampen-on-den-gyldne-midrange-2-8-HQ2TOo": "2025-07-13",
-            "kampen-on-den-gyldne-midrange-3-8-RlWFKF": "2025-07-20",
-            "kampen-on-den-gyldne-midrange-4-8-JXwQbn": "2025-07-27",
-            "kampen-on-den-gyldne-midrange-5-8-YCJzg4": "2025-08-03",
-            "kampen-on-den-gyldne-midrange-6-8-kpRQ7X": "2025-08-10",
-            "kampen-on-den-gyldne-midrange-7-8-0hdute": "2025-08-17",
-            "kampen-on-den-gyldne-midrange-8-8-AlorJX": "2025-08-24",
-        }
-        event_date = event_dates.get(event_id, "unknown-date")
-        file_name = f"{event_id}-{event_date}.xlsx"
+        file_name = f"event_{date.replace('/', '-')}.xlsx"
         file_path = os.path.join(output_dir, file_name)
         response = requests.get(export_url)
         if response.status_code == 200:
@@ -31,21 +18,10 @@ def download_leaderboard_exports(urls="", output_dir="exports"):
             print(f"Downloaded: {file_path}")
         else:
             print(f"Failed to download: {export_url} (Status: {response.status_code})")
-        
-if __name__ == "__main__":
-    # urls = [
-    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-1-8-eg4lmf/leaderboard",
-    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-2-8-HQ2TOo/leaderboard",
-    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-3-8-RlWFKF/leaderboard",
-    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-4-8-JXwQbn/leaderboard",
-    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-5-8-YCJzg4/leaderboard",
-    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-6-8-kpRQ7X/leaderboard",
-    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-7-8-0hdute/leaderboard",
-    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-8-8-AlorJX/leaderboard"
-    # ]
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--urls', type=str, default="", help="Comma-separated list of URLs")
-    args = parser.parse_args()
-    urls = args.urls.split(",") if args.urls else []
-    download_leaderboard_exports(urls)
 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--season', type=str, default="seasons/summer_league.yml", help="Path to season YAML file")
+    args = parser.parse_args()
+    events = load_events(args.season)
+    download_leaderboard_exports(events, output_dir="exports")

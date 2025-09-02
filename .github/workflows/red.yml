@@ -21,21 +21,29 @@ env:
 
 
 jobs:
-    calculate_leaderboard:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Do work
-              run: |
-                python3 -m pip install pandas openpyxl requests
-                python3 download_leaderboard_exports.py
-                python3 process_leaderboard.py --sheet "Pool ${{ env.layout }} - Round 1" --output "Leaderboard_${{ env.layout }}.csv"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-            - name: Upload leaderboard artifact
-              uses: actions/upload-artifact@v4
-              with:
-                name: leaderboard
-                path: ${{ github.workspace }}/Leaderboard_${{ env.layout }}.csv
-                if-no-files-found: error
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download leaderboard exports
+        run: python3 download_leaderboard_exports.py --season seasons/summer_league.yml
+
+      - name: Generate leaderboard
+        run: python3 process_leaderboard.py --season_yaml seasons/summer_league.yml --sheet "Pool ${{ env.layout }} - Round 1" --output "Leaderboard_${{ env.layout }}.csv"
+
+      - name: Upload leaderboard artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: leaderboard
+          path: ${{ github.workspace }}/Leaderboard_${{ env.layout }}.csv
+          if-no-files-found: error

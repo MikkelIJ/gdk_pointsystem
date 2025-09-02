@@ -86,3 +86,6 @@ local_settings.py
 
 # Cython debug symbols
 cython_debug/
+
+# .xlsx files
+*.xlsx
