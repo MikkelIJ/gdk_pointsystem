@@ -37,6 +37,6 @@ jobs:
       - name: Upload leaderboard artifact
         uses: actions/upload-artifact@v4
         with:
-          name: leaderboard
+          name: leaderboard_${{ env.layout }}
           path: ${{ github.workspace }}/Leaderboard_${{ env.layout }}.csv
           if-no-files-found: error
