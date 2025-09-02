@@ -31,11 +31,11 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: leaderboard
-                path: ${{ github.workspace }}/${{ vars.leaderboard_file }}
+                path: ${{ github.workspace }}/${{ env.leaderboard_file }}
                 if-no-files-found: error
 
             - name: Do work
               run: |
                 python3 -m pip install pandas openpyxl requests
                 python3 download_leaderboard_exports.py
-                python3 process_leaderboard.py --sheet "${{ vars.sheet_name }}" --output ${{ vars.leaderboard_file }}
+                python3 process_leaderboard.py --sheet "${{ env.sheet_name }}" --output ${{ env.leaderboard_file }}
