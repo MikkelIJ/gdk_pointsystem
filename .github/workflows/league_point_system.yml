@@ -1,0 +1,48 @@
+name: Calculate League Points
+
+on:
+    schedule:
+        # Runs every Sunday at 23:00 UTC from Sep 7 to Oct 26 (inclusive).
+        - cron: "0 23 * 9-10 0"
+            
+    workflow_dispatch:
+
+permissions:
+    contents: read
+env:
+  TZ: Europe/Copenhagen
+
+jobs:
+  DnC:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download leaderboard exports
+        run: python3 download_leaderboard_exports.py --season seasons/summer_league.yml
+
+      - name: Generate Red leaderboard
+        run: python3 process_leaderboard.py --season seasons/summer_league.yml --sheet "Pool Red - Round 1" --output "Leaderboard_Red.csv"
+
+      - name: Generate Yellow leaderboard
+        run: python3 process_leaderboard.py --season seasons/summer_league.yml --sheet "Pool Yellow - Round 1" --output "Leaderboard_Yellow.csv"
+
+      - name: Generate White leaderboard
+        run: python3 process_leaderboard.py --season seasons/summer_league.yml --sheet "Pool White - Round 1" --output "Leaderboard_White.csv"
+
+      
+      - name: Upload leaderboard artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: leaderboard
+          path: ${{ github.workspace }}/Leaderboard_*.csv
+          if-no-files-found: error
