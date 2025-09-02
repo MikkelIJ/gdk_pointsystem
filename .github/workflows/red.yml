@@ -16,7 +16,7 @@ concurrency:
 
 env:
   TZ: Europe/Copenhagen
-  layout: "Yellow"
+  layout: "Red"
 
 
 

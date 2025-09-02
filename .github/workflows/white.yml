@@ -31,7 +31,7 @@ jobs:
               run: |
                 python3 -m pip install pandas openpyxl requests
                 python3 download_leaderboard_exports.py
-                python3 process_leaderboard.py --sheet "Pool White - Round 1" --output "Leaderboard_${{ env.layout }}.csv"
+                python3 process_leaderboard.py --sheet "Pool ${{ env.layout }} - Round 1" --output "Leaderboard_${{ env.layout }}.csv"
 
             - name: Upload leaderboard artifact
               uses: actions/upload-artifact@v4
