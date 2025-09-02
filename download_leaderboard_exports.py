@@ -44,8 +44,8 @@ if __name__ == "__main__":
     #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-8-8-AlorJX/leaderboard"
     # ]
     parser = argparse.ArgumentParser()
-    parser.add_argument('--urls', type=str, default="", help="List of URLS []")
-    parser.add_argument('--output', type=str, default="exports", help="Output directory")
+    parser.add_argument('--urls', type=str, default="", help="Comma-separated list of URLs")
     args = parser.parse_args()
-    download_leaderboard_exports(urls=args.urls, output_dir=args.output)
+    urls = args.urls.split(",") if args.urls else []
+    download_leaderboard_exports(urls)
 
