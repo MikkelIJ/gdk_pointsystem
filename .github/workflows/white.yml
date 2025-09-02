@@ -1,0 +1,29 @@
+name: Monday window
+
+on:
+    schedule:
+        # Runs every Sunday at 23:00 UTC from Sep 7 to Oct 26 (inclusive).
+        - cron: "0 23 * 9-10 0"
+            
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: monday-window
+    cancel-in-progress: true
+
+env:
+  TZ: Europe/Copenhagen
+
+jobs:
+    run:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Do work
+              run: |
+                python3 -m pip install pandas openpyxl requests
+                python3 main.py
