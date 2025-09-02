@@ -57,7 +57,7 @@ def process_leaderboard(exports_folder="exports", output_csv="leaderboard.csv", 
         formatted_date = dt.strftime(date_format)
         round_dates.append(formatted_date)
         try:
-            df = pd.read_excel(file, sheet_name="Pool White - Round 1")
+            df = pd.read_excel(file, sheet_name=sheet_name)
         except ValueError:
             print(f"Sheet 'Pool White - Round 1' not found in {file}. Skipping.")
             continue
@@ -126,11 +126,9 @@ def process_leaderboard(exports_folder="exports", output_csv="leaderboard.csv", 
     print(f"Leaderboard saved to {output_csv}")
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Process leaderboard data")
-    parser.add_argument("--input", default="exports", help="Input directory")
-    parser.add_argument("--sheet", type=str, help="Input sheet name")
-    parser.add_argument("--output", default="leaderboard.csv", help="Output CSV file")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--sheet', type=str, default="Pool White - Round 1", help="Sheet name to process")
+    parser.add_argument('--output', type=str, default="leaderboard.csv", help="Output CSV filename")
     args = parser.parse_args()
-
-    process_leaderboard(args.input, args.sheet, args.output)
+    process_leaderboard(sheet_name=args.sheet, output_csv=args.output)
