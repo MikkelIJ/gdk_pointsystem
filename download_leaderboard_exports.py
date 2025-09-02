@@ -1,5 +1,6 @@
 import requests
 import os
+import argparse
 
 
 def download_leaderboard_exports(urls="", output_dir="exports"):
@@ -32,15 +33,19 @@ def download_leaderboard_exports(urls="", output_dir="exports"):
             print(f"Failed to download: {export_url} (Status: {response.status_code})")
         
 if __name__ == "__main__":
-    urls = [
-        "https://udisc.com/events/kampen-on-den-gyldne-midrange-1-8-eg4lmf/leaderboard",
-        "https://udisc.com/events/kampen-on-den-gyldne-midrange-2-8-HQ2TOo/leaderboard",
-        "https://udisc.com/events/kampen-on-den-gyldne-midrange-3-8-RlWFKF/leaderboard",
-        "https://udisc.com/events/kampen-on-den-gyldne-midrange-4-8-JXwQbn/leaderboard",
-        "https://udisc.com/events/kampen-on-den-gyldne-midrange-5-8-YCJzg4/leaderboard",
-        "https://udisc.com/events/kampen-on-den-gyldne-midrange-6-8-kpRQ7X/leaderboard",
-        "https://udisc.com/events/kampen-on-den-gyldne-midrange-7-8-0hdute/leaderboard",
-        "https://udisc.com/events/kampen-on-den-gyldne-midrange-8-8-AlorJX/leaderboard"
-    ]
-    download_leaderboard_exports(urls)
+    # urls = [
+    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-1-8-eg4lmf/leaderboard",
+    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-2-8-HQ2TOo/leaderboard",
+    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-3-8-RlWFKF/leaderboard",
+    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-4-8-JXwQbn/leaderboard",
+    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-5-8-YCJzg4/leaderboard",
+    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-6-8-kpRQ7X/leaderboard",
+    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-7-8-0hdute/leaderboard",
+    #     "https://udisc.com/events/kampen-on-den-gyldne-midrange-8-8-AlorJX/leaderboard"
+    # ]
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--urls', type=str, default="", help="List of URLS []")
+    parser.add_argument('--output', type=str, default="exports", help="Output directory")
+    args = parser.parse_args()
+    download_leaderboard_exports(urls=args.urls, output_dir=args.output)
 
